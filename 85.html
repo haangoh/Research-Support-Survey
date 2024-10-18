@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey on Research Support Library Services</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        td:first-child {
+            text-align: left;
+        }
+        td input {
+            margin-right: 5px;
+        }
+        #otherSchoolField, #otherCategoryField {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        // Function to clear scales if "NA" is selected
+        function handleNAChange(naCheckbox, minScaleName, currentScaleName) {
+            if (naCheckbox.checked) {
+                // Clear the selected options for the minimum and current scale
+                const minScaleOptions = document.getElementsByName(minScaleName);
+                const currentScaleOptions = document.getElementsByName(currentScaleName);
+                
+                minScaleOptions.forEach(option => option.checked = false);
+                currentScaleOptions.forEach(option => option.checked = false);
+            }
+        }
+
+        // Function to uncheck "NA" if any scale is selected
+        function handleScaleChange(naCheckbox) {
+            naCheckbox.checked = false; // Uncheck NA if any scale is selected
+        }
+
+        // Function to show or hide the "Other" school input field
+        function handleSchoolChange(selectElement) {
+            const otherSchoolField = document.getElementById('otherSchoolField');
+            if (selectElement.value === 'other') {
+                otherSchoolField.style.display = 'block'; // Show the text field
+            } else {
+                otherSchoolField.style.display = 'none'; // Hide the text field
+            }
+        }
+
+        // Function to show or hide the "Other" category input field
+        function handleCategoryChange(selectElement) {
+            const otherCategoryField = document.getElementById('otherCategoryField');
+            if (selectElement.value === 'other') {
+                otherCategoryField.style.display = 'block'; // Show the text field
+            } else {
+                otherCategoryField.style.display = 'none'; // Hide the text field
+            }
+        }
+
+        // Validation to ensure all questions are answered
+        function validateForm() {
+            const questions = document.querySelectorAll('tr');
+            let isValid = true;
+
+            questions.forEach((question, index) => {
+                if (index === 0) return; // Skip header row
+                const minScale = question.querySelectorAll('input[name$="_min"]:checked').length;
+                const currentScale = question.querySelectorAll('input[name$="_current"]:checked').length;
+                const naChecked = question.querySelector('input[type="checkbox"]:checked');
+                
+                if (!(minScale && currentScale) && !naChecked) {
+                    isValid = false;
+                    question.style.backgroundColor = '#ffdddd'; // Highlight the row if invalid
+                } else {
+                    question.style.backgroundColor = ''; // Clear highlight if valid
+                }
+            });
+
+            if (!isValid) {
+                alert('Please answer all the questions or select NA for each item.');
+            }
+
+            return isValid; // Prevent form submission if any question is not answered
+        }
+    </script>
+</head>
+<body>
+
+<h2>Library Research Support Survey</h2>
+
+<!-- Introduction to the Survey -->
+<p>
+    This survey aims to gather feedback on the research support services offered to undergraduates, postgraduates, and academic staff. Your responses will help us understand your needs and expectations of library users and help us to improve and enhance Library services related to research support. For more information on Research Support Library Services currently provided, refer <a href="https://library.sunway.edu.my/researchsupport9" target="_blank">here</a>.
+</p>
+<p>
+    <strong>Instructions:</strong><br>
+    The survey requires respondents to rate from 1 (lowest) to 5 (highest) for the two statements below:<br>
+    1. Minimum level of research support services that you find acceptable<br>
+    2. Level of research support services that you think or perceive the library currently provides<br>
+    There are 18 questions which are mandatory. The Open Comment is optional. For items which are Not Related, please indicate "NA".
+</p>
+
+
+<form onsubmit="return validateForm()">
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Minimum level of research support services that you find acceptable (1-5)</th>
+            <th>Level of research support services that you think or perceive the library currently provides (1-5)</th>
+            <th>NA</th>
+        </tr>
+
+        <!-- Category A: Level of provision of online resources and tools -->
+        <tr>
+            <td>
+                <span class="section-header">A. Level of provision of online resources and tools:</span><br>
+                1. Access to E-Books
+            </td>
+            <td>
+                <input type="radio" name="ebook_min" value="1" onchange="handleScaleChange(document.getElementById('ebook_na'))">1
+                <input type="radio" name="ebook_min" value="2" onchange="handleScaleChange(document.getElementById('ebook_na'))">2
+                <input type="radio" name="ebook_min" value="3" onchange="handleScaleChange(document.getElementById('ebook_na'))">3
+                <input type="radio" name="ebook_min" value="4" onchange="handleScaleChange(document.getElementById('ebook_na'))">4
+                <input type="radio" name="ebook_min" value="5" onchange="handleScaleChange(document.getElementById('ebook_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="ebook_current" value="1" onchange="handleScaleChange(document.getElementById('ebook_na'))">1
+                <input type="radio" name="ebook_current" value="2" onchange="handleScaleChange(document.getElementById('ebook_na'))">2
+                <input type="radio" name="ebook_current" value="3" onchange="handleScaleChange(document.getElementById('ebook_na'))">3
+                <input type="radio" name="ebook_current" value="4" onchange="handleScaleChange(document.getElementById('ebook_na'))">4
+                <input type="radio" name="ebook_current" value="5" onchange="handleScaleChange(document.getElementById('ebook_na'))">5
+            </td>
+            <td><input type="checkbox" id="ebook_na" name="ebook_na" value="NA" onchange="handleNAChange(this, 'ebook_min', 'ebook_current')">NA</td>
+        </tr>
+
+        <tr>
+            <td>2. Access to articles from E-Journals</td>
+            <td>
+                <input type="radio" name="ejournals_min" value="1" onchange="handleScaleChange(document.getElementById('ejournals_na'))">1
+                <input type="radio" name="ejournals_min" value="2" onchange="handleScaleChange(document.getElementById('ejournals_na'))">2
+                <input type="radio" name="ejournals_min" value="3" onchange="handleScaleChange(document.getElementById('ejournals_na'))">3
+                <input type="radio" name="ejournals_min" value="4" onchange="handleScaleChange(document.getElementById('ejournals_na'))">4
+                <input type="radio" name="ejournals_min" value="5" onchange="handleScaleChange(document.getElementById('ejournals_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="ejournals_current" value="1" onchange="handleScaleChange(document.getElementById('ejournals_na'))">1
+                <input type="radio" name="ejournals_current" value="2" onchange="handleScaleChange(document.getElementById('ejournals_na'))">2
+                <input type="radio" name="ejournals_current" value="3" onchange="handleScaleChange(document.getElementById('ejournals_na'))">3
+                <input type="radio" name="ejournals_current" value="4" onchange="handleScaleChange(document.getElementById('ejournals_na'))">4
+                <input type="radio" name="ejournals_current" value="5" onchange="handleScaleChange(document.getElementById('ejournals_na'))">5
+            </td>
+            <td><input type="checkbox" id="ejournals_na" name="ejournals_na" value="NA" onchange="handleNAChange(this, 'ejournals_min', 'ejournals_current')">NA</td>
+        </tr>
+
+        <tr>
+            <td>3. Access to <a href="https://library.sunway.edu.my/az.php" target="_blank">A-Z databases</td>
+            <td>
+                <input type="radio" name="azdatabases_min" value="1" onchange="handleScaleChange(document.getElementById('azdatabases_na'))">1
+                <input type="radio" name="azdatabases_min" value="2" onchange="handleScaleChange(document.getElementById('azdatabases_na'))">2
+                <input type="radio" name="azdatabases_min" value="3" onchange="handleScaleChange(document.getElementById('azdatabases_na'))">3
+                <input type="radio" name="azdatabases_min" value="4" onchange="handleScaleChange(document.getElementById('azdatabases_na'))">4
+                <input type="radio" name="azdatabases_min" value="5" onchange="handleScaleChange(document.getElementById('azdatabases_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="azdatabases_current" value="1" onchange="handleScaleChange(document.getElementById('azdatabases_na'))">1
+                <input type="radio" name="azdatabases_current" value="2" onchange="handleScaleChange(document.getElementById('azdatabases_na'))">2
+                <input type="radio" name="azdatabases_current" value="3" onchange="handleScaleChange(document.getElementById('azdatabases_na'))">3
+                <input type="radio" name="azdatabases_current" value="4" onchange="handleScaleChange(document.getElementById('azdatabases_na'))">4
+                <input type="radio" name="azdatabases_current" value="5" onchange="handleScaleChange(document.getElementById('azdatabases_na'))">5
+            </td>
+            <td><input type="checkbox" id="azdatabases_na" name="azdatabases_na" value="NA" onchange="handleNAChange(this, 'azdatabases_min', 'azdatabases_current')">NA</td>
+        </tr>
+ 
+        <tr>
+            <td>4. <a href="https://library.sunway.edu.my" target="_blank">SearchAll</td>
+            <td>
+                <input type="radio" name="searchall_min" value="1" onchange="handleScaleChange(document.getElementById('searchall_na'))">1
+                <input type="radio" name="searchall_min" value="2" onchange="handleScaleChange(document.getElementById('searchall_na'))">2
+                <input type="radio" name="searchall_min" value="3" onchange="handleScaleChange(document.getElementById('searchall_na'))">3
+                <input type="radio" name="searchall_min" value="4" onchange="handleScaleChange(document.getElementById('searchall_na'))">4
+                <input type="radio" name="searchall_min" value="5" onchange="handleScaleChange(document.getElementById('searchall_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="searchall_current" value="1" onchange="handleScaleChange(document.getElementById('searchall_na'))">1
+                <input type="radio" name="searchall_current" value="2" onchange="handleScaleChange(document.getElementById('searchall_na'))">2
+                <input type="radio" name="searchall_current" value="3" onchange="handleScaleChange(document.getElementById('searchall_na'))">3
+                <input type="radio" name="searchall_current" value="4" onchange="handleScaleChange(document.getElementById('searchall_na'))">4
+                <input type="radio" name="searchall_current" value="5" onchange="handleScaleChange(document.getElementById('searchall_na'))">5
+            </td>
+            <td><input type="checkbox" id="searchall_na" name="searchall_na" value="NA" onchange="handleNAChange(this, 'searchall_min', 'searchall_current')">NA</td>
+        </tr>
+
+        <tr>
+            <td>5. <a href="https://sunway.libwizard.com/forms/previewmode/34076a52e2fb223c4e74755f9c6e20cc" target="_blank">Online Tutorial </a> for self-learning</td>
+            <td>
+                <input type="radio" name="onlinetutorial_min" value="1" onchange="handleScaleChange(document.getElementById('onlinetutorial_na'))">1
+                <input type="radio" name="onlinetutorial_min" value="2" onchange="handleScaleChange(document.getElementById('onlinetutorial_na'))">2
+                <input type="radio" name="onlinetutorial_min" value="3" onchange="handleScaleChange(document.getElementById('onlinetutorial_na'))">3
+                <input type="radio" name="onlinetutorial_min" value="4" onchange="handleScaleChange(document.getElementById('onlinetutorial_na'))">4
+                <input type="radio" name="onlinetutorial_min" value="5" onchange="handleScaleChange(document.getElementById('onlinetutorial_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="onlinetutorial_current" value="1" onchange="handleScaleChange(document.getElementById('onlinetutorial_na'))">1
+                <input type="radio" name="onlinetutorial_current" value="2" onchange="handleScaleChange(document.getElementById('onlinetutorial_na'))">2
+                <input type="radio" name="onlinetutorial_current" value="3" onchange="handleScaleChange(document.getElementById('onlinetutorial_na'))">3
+                <input type="radio" name="onlinetutorial_current" value="4" onchange="handleScaleChange(document.getElementById('onlinetutorial_na'))">4
+                <input type="radio" name="onlinetutorial_current" value="5" onchange="handleScaleChange(document.getElementById('onlinetutorial_na'))">5
+            </td>
+            <td><input type="checkbox" id="onlinetutorial_na" name="onlinetutorial_na" value="NA" onchange="handleNAChange(this, 'onlinetutorial_min', 'onlinetutorial_current')">NA</td>
+        </tr>
+ 
+        <tr>
+            <td>6. Guides, Shelf Guides, Brochures, Panphelets for quick reference</td>
+            <td>
+                <input type="radio" name="guides_min" value="1" onchange="handleScaleChange(document.getElementById('guides_na'))">1
+                <input type="radio" name="guides_min" value="2" onchange="handleScaleChange(document.getElementById('guides_na'))">2
+                <input type="radio" name="guides_min" value="3" onchange="handleScaleChange(document.getElementById('guides_na'))">3
+                <input type="radio" name="guides_min" value="4" onchange="handleScaleChange(document.getElementById('guides_na'))">4
+                <input type="radio" name="guides_min" value="5" onchange="handleScaleChange(document.getElementById('guides_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="guides_current" value="1" onchange="handleScaleChange(document.getElementById('guides_na'))">1
+                <input type="radio" name="guides_current" value="2" onchange="handleScaleChange(document.getElementById('guides_na'))">2
+                <input type="radio" name="guides_current" value="3" onchange="handleScaleChange(document.getElementById('guides_na'))">3
+                <input type="radio" name="guides_current" value="4" onchange="handleScaleChange(document.getElementById('guides_na'))">4
+                <input type="radio" name="guides_current" value="5" onchange="handleScaleChange(document.getElementById('guides_na'))">5
+            </td>
+            <td><input type="checkbox" id="guides_na" name="guides_na" value="NA" onchange="handleNAChange(this, 'guides_min', 'guides_current')">NA</td>
+        </tr>
+
+        <tr>
+            <td>7. <a href="https://library.sunway.edu.my/docdel9" target="_blank">Document delivery service</td>
+            <td>
+                <input type="radio" name="docdel_min" value="1" onchange="handleScaleChange(document.getElementById('docdel_na'))">1
+                <input type="radio" name="docdel_min" value="2" onchange="handleScaleChange(document.getElementById('docdel_na'))">2
+                <input type="radio" name="docdel_min" value="3" onchange="handleScaleChange(document.getElementById('docdel_na'))">3
+                <input type="radio" name="docdel_min" value="4" onchange="handleScaleChange(document.getElementById('docdel_na'))">4
+                <input type="radio" name="docdel_min" value="5" onchange="handleScaleChange(document.getElementById('docdel_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="docdel_current" value="1" onchange="handleScaleChange(document.getElementById('docdel_na'))">1
+                <input type="radio" name="docdel_current" value="2" onchange="handleScaleChange(document.getElementById('docdel_na'))">2
+                <input type="radio" name="docdel_current" value="3" onchange="handleScaleChange(document.getElementById('docdel_na'))">3
+                <input type="radio" name="docdel_current" value="4" onchange="handleScaleChange(document.getElementById('docdel_na'))">4
+                <input type="radio" name="docdel_current" value="5" onchange="handleScaleChange(document.getElementById('docdel_na'))">5
+            </td>
+            <td><input type="checkbox" id="docdel_na" name="docdel_na" value="NA" onchange="handleNAChange(this, 'docdel_min', 'docdel_current')">NA</td>
+        </tr>
+
+        <!-- Category B: Level of research support, guidance, and assistance provided by Library -->
+        <tr>
+            <td>
+                <span class="section-header">B. Level of research support, guidance, and assistance provided by Library:</span><br>
+                8. <a href="https://sunway.libwizard.com/f/consultationPGRres" target="_blank">Consultation
+            </td>
+            <td>
+                <input type="radio" name="consultation_min" value="1" onchange="handleScaleChange(document.getElementById('consultation_na'))">1
+                <input type="radio" name="consultation_min" value="2" onchange="handleScaleChange(document.getElementById('consultation_na'))">2
+                <input type="radio" name="consultation_min" value="3" onchange="handleScaleChange(document.getElementById('consultation_na'))">3
+                <input type="radio" name="consultation_min" value="4" onchange="handleScaleChange(document.getElementById('consultation_na'))">4
+                <input type="radio" name="consultation_min" value="5" onchange="handleScaleChange(document.getElementById('consultation_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="consultation_current" value="1" onchange="handleScaleChange(document.getElementById('consultation_na'))">1
+                <input type="radio" name="consultation_current" value="2" onchange="handleScaleChange(document.getElementById('consultation_na'))">2
+                <input type="radio" name="consultation_current" value="3" onchange="handleScaleChange(document.getElementById('consultation_na'))">3
+                <input type="radio" name="consultation_current" value="4" onchange="handleScaleChange(document.getElementById('consultation_na'))">4
+                <input type="radio" name="consultation_current" value="5" onchange="handleScaleChange(document.getElementById('consultation_na'))">5
+            </td>
+            <td><input type="checkbox" id="consultation_na" name="consultation_na" value="NA" onchange="handleNAChange(this, 'consultation_min', 'consultation_current')">NA</td>
+        </tr>
+
+        <tr>
+            <td>9. Physical helpdesk to answer enquiries Face to Face</td>
+            <td>
+                <input type="radio" name="helpdesk_min" value="1" onchange="handleScaleChange(document.getElementById('helpdesk_na'))">1
+                <input type="radio" name="helpdesk_min" value="2" onchange="handleScaleChange(document.getElementById('helpdesk_na'))">2
+                <input type="radio" name="helpdesk_min" value="3" onchange="handleScaleChange(document.getElementById('helpdesk_na'))">3
+                <input type="radio" name="helpdesk_min" value="4" onchange="handleScaleChange(document.getElementById('helpdesk_na'))">4
+                <input type="radio" name="helpdesk_min" value="5" onchange="handleScaleChange(document.getElementById('helpdesk_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="helpdesk_current" value="1" onchange="handleScaleChange(document.getElementById('helpdesk_na'))">1
+                <input type="radio" name="helpdesk_current" value="2" onchange="handleScaleChange(document.getElementById('helpdesk_na'))">2
+                <input type="radio" name="helpdesk_current" value="3" onchange="handleScaleChange(document.getElementById('helpdesk_na'))">3
+                <input type="radio" name="helpdesk_current" value="4" onchange="handleScaleChange(document.getElementById('helpdesk_na'))">4
+                <input type="radio" name="helpdesk_current" value="5" onchange="handleScaleChange(document.getElementById('helpdesk_na'))">5
+            </td>
+            <td><input type="checkbox" id="helpdesk_na" name="helpdesk_na" value="NA" onchange="handleNAChange(this, 'helpdesk_min', 'helpdesk_current')">NA</td>
+        </tr>
+
+        <tr>
+            <td>10. Online assistance with enquiries <a href="https://sunway.libwizard.com/f/askquestion3" target="_blank">Ask a Librarian</td>
+            <td>
+                <input type="radio" name="asklibrarian_min" value="1" onchange="handleScaleChange(document.getElementById('asklibrarian_na'))">1
+                <input type="radio" name="asklibrarian_min" value="2" onchange="handleScaleChange(document.getElementById('asklibrarian_na'))">2
+                <input type="radio" name="asklibrarian_min" value="3" onchange="handleScaleChange(document.getElementById('asklibrarian_na'))">3
+                <input type="radio" name="asklibrarian_min" value="4" onchange="handleScaleChange(document.getElementById('asklibrarian_na'))">4
+                <input type="radio" name="asklibrarian_min" value="5" onchange="handleScaleChange(document.getElementById('asklibrarian_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="asklibrarian_current" value="1" onchange="handleScaleChange(document.getElementById('asklibrarian_na'))">1
+                <input type="radio" name="asklibrarian_current" value="2" onchange="handleScaleChange(document.getElementById('asklibrarian_na'))">2
+                <input type="radio" name="asklibrarian_current" value="3" onchange="handleScaleChange(document.getElementById('asklibrarian_na'))">3
+                <input type="radio" name="asklibrarian_current" value="4" onchange="handleScaleChange(document.getElementById('asklibrarian_na'))">4
+                <input type="radio" name="asklibrarian_current" value="5" onchange="handleScaleChange(document.getElementById('asklibrarian_na'))">5
+            </td>
+            <td><input type="checkbox" id="asklibrarian_na" name="asklibrarian_na" value="NA" onchange="handleNAChange(this, 'asklibrarian_min', 'asklibrarian_current')">NA</td>
+        </tr> 
+
+        <tr>
+            <td>11. Focus Group sessions for postgraduates</td>
+            <td>
+                <input type="radio" name="focusgroup_min" value="1" onchange="handleScaleChange(document.getElementById('focusgroup_na'))">1
+                <input type="radio" name="focusgroup_min" value="2" onchange="handleScaleChange(document.getElementById('focusgroup_na'))">2
+                <input type="radio" name="focusgroup_min" value="3" onchange="handleScaleChange(document.getElementById('focusgroup_na'))">3
+                <input type="radio" name="focusgroup_min" value="4" onchange="handleScaleChange(document.getElementById('focusgroup_na'))">4
+                <input type="radio" name="focusgroup_min" value="5" onchange="handleScaleChange(document.getElementById('focusgroup_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="focusgroup_current" value="1" onchange="handleScaleChange(document.getElementById('focusgroup_na'))">1
+                <input type="radio" name="focusgroup_current" value="2" onchange="handleScaleChange(document.getElementById('focusgroup_na'))">2
+                <input type="radio" name="focusgroup_current" value="3" onchange="handleScaleChange(document.getElementById('focusgroup_na'))">3
+                <input type="radio" name="focusgroup_current" value="4" onchange="handleScaleChange(document.getElementById('focusgroup_na'))">4
+                <input type="radio" name="focusgroup_current" value="5" onchange="handleScaleChange(document.getElementById('focusgroup_na'))">5
+            </td>
+            <td><input type="checkbox" id="focusgroup_na" name="focusgroup_na" value="NA" onchange="handleNAChange(this, 'focusgroup_min', 'focusgroup_current')">NA</td>
+        </tr>
+
+        <tr>
+            <td>12. Meet the Academic Sessions for academic staff</td>
+            <td>
+                <input type="radio" name="meet_min" value="1" onchange="handleScaleChange(document.getElementById('meet_na'))">1
+                <input type="radio" name="meet_min" value="2" onchange="handleScaleChange(document.getElementById('meet_na'))">2
+                <input type="radio" name="meet_min" value="3" onchange="handleScaleChange(document.getElementById('meet_na'))">3
+                <input type="radio" name="meet_min" value="4" onchange="handleScaleChange(document.getElementById('meet_na'))">4
+                <input type="radio" name="meet_min" value="5" onchange="handleScaleChange(document.getElementById('meet_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="meet_current" value="1" onchange="handleScaleChange(document.getElementById('meet_na'))">1
+                <input type="radio" name="meet_current" value="2" onchange="handleScaleChange(document.getElementById('meet_na'))">2
+                <input type="radio" name="meet_current" value="3" onchange="handleScaleChange(document.getElementById('meet_na'))">3
+                <input type="radio" name="meet_current" value="4" onchange="handleScaleChange(document.getElementById('meet_na'))">4
+                <input type="radio" name="meet_current" value="5" onchange="handleScaleChange(document.getElementById('meet_na'))">5
+            </td>
+            <td><input type="checkbox" id="meet_na" name="meet_na" value="NA" onchange="handleNAChange(this, 'meet_min', 'meet_current')">NA</td>
+        </tr>
+
+        <tr>
+            <td>13. Library Online Orientation videos</td>
+            <td>
+                <input type="radio" name="video_min" value="1" onchange="handleScaleChange(document.getElementById('video_na'))">1
+                <input type="radio" name="video_min" value="2" onchange="handleScaleChange(document.getElementById('video_na'))">2
+                <input type="radio" name="video_min" value="3" onchange="handleScaleChange(document.getElementById('video_na'))">3
+                <input type="radio" name="video_min" value="4" onchange="handleScaleChange(document.getElementById('video_na'))">4
+                <input type="radio" name="video_min" value="5" onchange="handleScaleChange(document.getElementById('video_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="video_current" value="1" onchange="handleScaleChange(document.getElementById('video_na'))">1
+                <input type="radio" name="video_current" value="2" onchange="handleScaleChange(document.getElementById('video_na'))">2
+                <input type="radio" name="video_current" value="3" onchange="handleScaleChange(document.getElementById('video_na'))">3
+                <input type="radio" name="video_current" value="4" onchange="handleScaleChange(document.getElementById('video_na'))">4
+                <input type="radio" name="video_current" value="5" onchange="handleScaleChange(document.getElementById('video_na'))">5
+            </td>
+            <td><input type="checkbox" id="video_na" name="video_na" value="NA" onchange="handleNAChange(this, 'video_min', 'video_current')">NA</td>
+        </tr>
+
+        <!-- Category C: Level of assistance with software -->
+        <tr>
+            <td>
+                <span class="section-header">C. Level of assistance with software:</span><br>
+                14. Ease of installation of EndNote in laptop
+            </td>
+            <td>
+                <input type="radio" name="endnote_min" value="1" onchange="handleScaleChange(document.getElementById('endnote_na'))">1
+                <input type="radio" name="endnote_min" value="2" onchange="handleScaleChange(document.getElementById('endnote_na'))">2
+                <input type="radio" name="endnote_min" value="3" onchange="handleScaleChange(document.getElementById('endnote_na'))">3
+                <input type="radio" name="endnote_min" value="4" onchange="handleScaleChange(document.getElementById('endnote_na'))">4
+                <input type="radio" name="endnote_min" value="5" onchange="handleScaleChange(document.getElementById('endnote_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="endnote_current" value="1" onchange="handleScaleChange(document.getElementById('endnote_na'))">1
+                <input type="radio" name="endnote_current" value="2" onchange="handleScaleChange(document.getElementById('endnote_na'))">2
+                <input type="radio" name="endnote_current" value="3" onchange="handleScaleChange(document.getElementById('endnote_na'))">3
+                <input type="radio" name="endnote_current" value="4" onchange="handleScaleChange(document.getElementById('endnote_na'))">4
+                <input type="radio" name="endnote_current" value="5" onchange="handleScaleChange(document.getElementById('endnote_na'))">5
+            </td>
+            <td><input type="checkbox" id="endnote_na" name="endnote_na" value="NA" onchange="handleNAChange(this, 'endnote_min', 'endnote_current')">NA</td>
+        </tr>
+
+        <tr>
+            <td>15. Ease of using <a href="https://library.sunway.edu.my/leanlibrary9" target="_blank">Lean Library</td>
+            <td>
+                <input type="radio" name="leanlibrary_min" value="1" onchange="handleScaleChange(document.getElementById('leanlibrary_na'))">1
+                <input type="radio" name="leanlibrary_min" value="2" onchange="handleScaleChange(document.getElementById('leanlibrary_na'))">2
+                <input type="radio" name="leanlibrary_min" value="3" onchange="handleScaleChange(document.getElementById('leanlibrary_na'))">3
+                <input type="radio" name="leanlibrary_min" value="4" onchange="handleScaleChange(document.getElementById('leanlibrary_na'))">4
+                <input type="radio" name="leanlibrary_min" value="5" onchange="handleScaleChange(document.getElementById('leanlibrary_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="leanlibrary_current" value="1" onchange="handleScaleChange(document.getElementById('leanlibrary_na'))">1
+                <input type="radio" name="leanlibrary_current" value="2" onchange="handleScaleChange(document.getElementById('leanlibrary_na'))">2
+                <input type="radio" name="leanlibrary_current" value="3" onchange="handleScaleChange(document.getElementById('leanlibrary_na'))">3
+                <input type="radio" name="leanlibrary_current" value="4" onchange="handleScaleChange(document.getElementById('leanlibrary_na'))">4
+                <input type="radio" name="leanlibrary_current" value="5" onchange="handleScaleChange(document.getElementById('leanlibrary_na'))">5
+            </td>
+            <td><input type="checkbox" id="leanlibrary_na" name="leanlibrary_na" value="NA" onchange="handleNAChange(this, 'leanlibrary_min', 'leanlibrary_current')">NA</td>
+        </tr> 
+
+        <tr>
+            <td>16. Links to plagiarism detection software and statistical software in the library webpage</td>
+            <td>
+                <input type="radio" name="linksoftware_min" value="1" onchange="handleScaleChange(document.getElementById('linksoftware_na'))">1
+                <input type="radio" name="linksoftware_min" value="2" onchange="handleScaleChange(document.getElementById('linksoftware_na'))">2
+                <input type="radio" name="linksoftware_min" value="3" onchange="handleScaleChange(document.getElementById('linksoftware_na'))">3
+                <input type="radio" name="linksoftware_min" value="4" onchange="handleScaleChange(document.getElementById('linksoftware_na'))">4
+                <input type="radio" name="linksoftware_min" value="5" onchange="handleScaleChange(document.getElementById('linksoftware_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="linksoftware_current" value="1" onchange="handleScaleChange(document.getElementById('linksoftware_na'))">1
+                <input type="radio" name="linksoftware_current" value="2" onchange="handleScaleChange(document.getElementById('linksoftware_na'))">2
+                <input type="radio" name="linksoftware_current" value="3" onchange="handleScaleChange(document.getElementById('linksoftware_na'))">3
+                <input type="radio" name="linksoftware_current" value="4" onchange="handleScaleChange(document.getElementById('linksoftware_na'))">4
+                <input type="radio" name="linksoftware_current" value="5" onchange="handleScaleChange(document.getElementById('linksoftware_na'))">5
+            </td>
+            <td><input type="checkbox" id="linksoftware_na" name="linksoftware_na" value="NA" onchange="handleNAChange(this, 'linksoftware_min', 'linksoftware_current')">NA</td>
+        </tr>
+
+        <!-- Category D: Provision of information and research workshops -->
+        <tr>
+            <td>
+                <span class="section-header">D. Provision of information and research workshops:</span><br>
+                17. Types of workshops currently provided
+            </td>
+            <td>
+                <input type="radio" name="workshops_min" value="1" onchange="handleScaleChange(document.getElementById('workshops_na'))">1
+                <input type="radio" name="workshops_min" value="2" onchange="handleScaleChange(document.getElementById('workshops_na'))">2
+                <input type="radio" name="workshops_min" value="3" onchange="handleScaleChange(document.getElementById('workshops_na'))">3
+                <input type="radio" name="workshops_min" value="4" onchange="handleScaleChange(document.getElementById('workshops_na'))">4
+                <input type="radio" name="workshops_min" value="5" onchange="handleScaleChange(document.getElementById('workshops_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="workshops_current" value="1" onchange="handleScaleChange(document.getElementById('workshops_na'))">1
+                <input type="radio" name="workshops_current" value="2" onchange="handleScaleChange(document.getElementById('workshops_na'))">2
+                <input type="radio" name="workshops_current" value="3" onchange="handleScaleChange(document.getElementById('workshops_na'))">3
+                <input type="radio" name="workshops_current" value="4" onchange="handleScaleChange(document.getElementById('workshops_na'))">4
+                <input type="radio" name="workshops_current" value="5" onchange="handleScaleChange(document.getElementById('workshops_na'))">5
+            </td>
+            <td><input type="checkbox" id="workshops_na" name="workshops_na" value="NA" onchange="handleNAChange(this, 'workshops_min', 'workshops_current')">NA</td>
+        </tr>
+
+        <tr>
+            <td>18. Information about the schedule of the upcoming workshops</td>
+            <td>
+                <input type="radio" name="schedule_min" value="1" onchange="handleScaleChange(document.getElementById('schedule_na'))">1
+                <input type="radio" name="schedule_min" value="2" onchange="handleScaleChange(document.getElementById('schedule_na'))">2
+                <input type="radio" name="schedule_min" value="3" onchange="handleScaleChange(document.getElementById('schedule_na'))">3
+                <input type="radio" name="schedule_min" value="4" onchange="handleScaleChange(document.getElementById('schedule_na'))">4
+                <input type="radio" name="schedule_min" value="5" onchange="handleScaleChange(document.getElementById('schedule_na'))">5
+            </td>
+            <td>
+                <input type="radio" name="schedule_current" value="1" onchange="handleScaleChange(document.getElementById('schedule_na'))">1
+                <input type="radio" name="schedule_current" value="2" onchange="handleScaleChange(document.getElementById('schedule_na'))">2
+                <input type="radio" name="schedule_current" value="3" onchange="handleScaleChange(document.getElementById('schedule_na'))">3
+                <input type="radio" name="schedule_current" value="4" onchange="handleScaleChange(document.getElementById('schedule_na'))">4
+                <input type="radio" name="schedule_current" value="5" onchange="handleScaleChange(document.getElementById('schedule_na'))">5
+            </td>
+            <td><input type="checkbox" id="schedule_na" name="schedule_na" value="NA" onchange="handleNAChange(this, 'schedule_min', 'schedule_current')">NA</td>
+        </tr>
+
+      <!-- Add more survey items as needed -->
+
+    </table>
+
+    <br>
+
+    <label for="comments">19. Comments related to any items above:</label>
+    <textarea id="comments" name="comments" rows="4" cols="50"></textarea>
+
+    <br><br>
+
+    <!-- School and Department Selection -->
+    <label for="school">20. Select Your School and Department:</label>
+    <select id="school" name="school" required onchange="handleSchoolChange(this)">
+        <option value="" disabled selected>Please select your school</option>
+        <option value="american_education">Sch of American Education</option>
+        <option value="arts_adm">Sch of Arts: Dept. of Art, Design and Media</option>
+        <option value="arts_communication">Sch of Arts: Dept. of Communication</option>
+        <option value="arts_film_performing">Sch of Arts: Dept. of Film and Performing Arts</option>
+        <option value="education">Sch of Education</option>
+        <option value="eng_tech_cis">Sch of Engineering and Technology: Dept. of Computing and Information Systems</option>
+        <option value="eng_tech_engineering">Sch of Engineering and Technology: Dept. of Engineering</option>
+        <option value="eng_tech_nano">Sch of Engineering and Technology: Research Centre for Nano-Materials and Energy</option>
+        <option value="hospitality_service">Sch of Hospitality and Service Management</option>
+        <option value="math_sci">Sch of Mathematical Sciences</option>
+        <option value="med_life_allied">Sch of Medical and Life Sciences: Dept. of Allied Healthcare</option>
+        <option value="med_life_bio">Sch of Medical and Life Sciences: Dept. of Biological Sciences</option>
+        <option value="med_life_med">Sch of Medical and Life Sciences: Dept. of Medical Sciences</option>
+        <option value="med_life_nursing">Sch of Medical and Life Sciences: Dept. of Nursing</option>
+        <option value="med_life_psych">Sch of Medical and Life Sciences: Dept. of Psychology</option>
+        <option value="business_school">Sunway Business School</option>
+        <option value="other">Other</option>
+    </select>
+
+    <div id="otherSchoolField">
+        <label for="otherSchool">Please specify your school:</label>
+        <input type="text" id="otherSchool" name="otherSchool" placeholder="Enter your school name">
+    </div>
+
+    <br><br>
+
+    <!-- Category Selection -->
+    <label for="category">21. Select Your Category:</label>
+    <select id="category" name="category" required onchange="handleCategoryChange(this)">
+        <option value="" disabled selected>Please select your category</option>
+        <option value="phd">PhD Student</option>
+        <option value="master_research">Master by Research Student</option>
+        <option value="master_coursework">Master by Coursework Student</option>
+        <option value="researcher">Researcher</option>
+        <option value="undergraduate">Undergraduate Student</option>
+        <option value="academic_staff">Academic Staff</option>
+        <option value="other">Other</option>
+    </select>
+
+    <div id="otherCategoryField">
+        <label for="otherCategory">Please specify your category:</label>
+        <input type="text" id="otherCategory" name="otherCategory" placeholder="Enter your category">
+    </div>
+
+    <br><br>
+    <input type="submit" value="Submit Survey">
+</form>
+
+</body>
+</html>
